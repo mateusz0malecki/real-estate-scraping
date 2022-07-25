@@ -17,8 +17,8 @@ if config.config_file_name is not None:
 # add your model's MetaData object here
 # for 'autogenerate' support
 from db.database import Base
-from models.model_house import HouseSale, HouseMoreInfoSale
-from models.model_flat import FlatSale, FlatMoreInfoSale
+from models.model_house import House, HouseInfo
+from models.model_flat import Flat, FlatInfo
 target_metadata = Base.metadata
 # target_metadata = None
 
