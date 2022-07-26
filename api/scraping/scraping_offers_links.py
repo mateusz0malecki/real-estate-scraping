@@ -2,9 +2,9 @@ from bs4 import BeautifulSoup
 from requests import get
 
 
-def get_links_to_offers(city, sale_or_rent, estate):
+def get_links_to_offers(city: str, for_sale: bool, estate: str):
     """
-    :param sale_or_rent: defines if estate is listed for sale or rent
+    :param for_sale: defines if estate is listed for sale or rent
     :param estate: defines type of real estate
     :param city: city that you want to get offers from
     :return: list of links to offers from chosen city
@@ -12,6 +12,13 @@ def get_links_to_offers(city, sale_or_rent, estate):
     page_number = 1
     links = []
     while True:
+
+        sale_or_rent = None
+        if for_sale is True:
+            sale_or_rent = 'sprzedaz'
+        if for_sale is False:
+            sale_or_rent = 'wynajem'
+
         try:
             page = get(
                 f'https://www.otodom.pl/pl/oferty/{sale_or_rent}/{estate}/{city}'

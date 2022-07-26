@@ -20,7 +20,7 @@ class Flat(Base):
     price = Column(String(32))
     price_per_m2 = Column(String(32))
     rent_price = Column(String(32))
-    flat_more_info = relationship("FlatInfo", back_populates='flat', uselist=False, cascade='delete')
+    flat_info = relationship("FlatInfo", back_populates='flat', uselist=False, cascade='delete')
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
@@ -49,7 +49,7 @@ class FlatInfo(Base):
     deposit = Column(String(32))
     available_for_students = Column(Boolean)
     extras = Column(String(128))
-    house_id = Column(Integer, ForeignKey('flat.flat_id', ondelete="CASCADE"))
-    house = relationship("Flat", back_populates='flat_info')
+    flat_id_scrap = Column(Integer, ForeignKey('flat.id_scrap', ondelete="CASCADE"))
+    flat = relationship("Flat", back_populates='flat_info')
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())

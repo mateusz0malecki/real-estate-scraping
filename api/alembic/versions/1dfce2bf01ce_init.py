@@ -1,8 +1,8 @@
 """init
 
-Revision ID: eca0d6f5f052
+Revision ID: 1dfce2bf01ce
 Revises: 
-Create Date: 2022-07-25 11:19:07.263212
+Create Date: 2022-07-26 14:01:17.673085
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'eca0d6f5f052'
+revision = '1dfce2bf01ce'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -81,10 +81,10 @@ def upgrade() -> None:
     sa.Column('deposit', sa.String(length=32), nullable=True),
     sa.Column('available_for_students', sa.Boolean(), nullable=True),
     sa.Column('extras', sa.String(length=128), nullable=True),
-    sa.Column('house_id', sa.Integer(), nullable=True),
+    sa.Column('flat_id_scrap', sa.Integer(), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
-    sa.ForeignKeyConstraint(['house_id'], ['flat.flat_id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['flat_id_scrap'], ['flat.id_scrap'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('flat_info_id')
     )
     op.create_index(op.f('ix_flat_info_flat_info_id'), 'flat_info', ['flat_info_id'], unique=False)
@@ -114,10 +114,10 @@ def upgrade() -> None:
     sa.Column('drive_access', sa.String(length=32), nullable=True),
     sa.Column('location', sa.String(length=32), nullable=True),
     sa.Column('extras', sa.String(length=128), nullable=True),
-    sa.Column('house_id', sa.Integer(), nullable=True),
+    sa.Column('house_id_scrap', sa.Integer(), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
-    sa.ForeignKeyConstraint(['house_id'], ['house.house_id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['house_id_scrap'], ['house.id_scrap'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('house_info_id')
     )
     op.create_index(op.f('ix_house_info_house_info_id'), 'house_info', ['house_info_id'], unique=False)

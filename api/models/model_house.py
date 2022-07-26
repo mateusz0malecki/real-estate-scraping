@@ -52,7 +52,7 @@ class HouseInfo(Base):
     drive_access = Column(String(32))
     location = Column(String(32))
     extras = Column(String(128))
-    house_id = Column(Integer, ForeignKey('house.house_id', ondelete="CASCADE"))
+    house_id_scrap = Column(Integer, ForeignKey('house.id_scrap', ondelete="CASCADE"))
     house = relationship("House", back_populates='house_info')
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())

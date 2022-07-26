@@ -5,10 +5,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 
-postgres_user = os.getenv("POSTGRES_USER")
-postgres_db = os.getenv("POSTGRES_DB")
-postgres_password = os.getenv("POSTGRES_PASSWORD")
-postgres_host = os.getenv("POSTGRES_HOST")
+postgres_user = os.getenv("POSTGRES_USER", 'postgres')
+postgres_db = os.getenv("POSTGRES_DB", 'real_estate')
+postgres_password = os.getenv("POSTGRES_PASSWORD", 'password')
+postgres_host = os.getenv("POSTGRES_HOST", 'db')
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{postgres_user}:{postgres_password}@{postgres_host}/{postgres_db}"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

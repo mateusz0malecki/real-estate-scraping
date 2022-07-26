@@ -25,7 +25,7 @@ def scraping_house_or_flat(endpoint, for_sale):
     except IndexError:
         district = None
     try:
-        address = scrap[2].strip()
+        address = scrap[-1].strip()
     except IndexError:
         address = None
 
@@ -46,7 +46,11 @@ def scraping_house_or_flat(endpoint, for_sale):
     number_of_rooms = table.find(
         'div', {"class": "css-1ccovha estckra9", "aria-label": "Liczba pokoi"}
     ).get_text()[12:]
-    number_of_rooms = None if number_of_rooms == 'zapytaj' else int(number_of_rooms)
+    if len(number_of_rooms.split()) > 1:
+        numeric_filter = filter(str.isdigit, number_of_rooms)
+        number_of_rooms = int("".join(numeric_filter))
+    else:
+        number_of_rooms = None if number_of_rooms == 'zapytaj' else int(number_of_rooms)
 
     instance = {
         "id_scrap": int(id_scrap),

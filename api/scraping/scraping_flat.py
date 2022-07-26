@@ -1,4 +1,4 @@
-from scraping_helpers import scraping_otodom, scraping_house_or_flat
+from .scraping_helpers import scraping_otodom, scraping_house_or_flat
 
 
 def scraping_flat(endpoint: str, for_sale: bool):
