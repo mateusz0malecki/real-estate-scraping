@@ -1,27 +1,27 @@
 from .scraping_helpers import scraping_otodom, scraping_house_or_flat
 
 
-def scraping_flat(endpoint: str, for_sale: bool):
+def scraping_flat(link: str, for_sale: bool):
     """
-    :param endpoint: endpoint to an offer
+    :param link: endpoint to an offer
     :param for_sale: defines if flat is listed for sale or rent
     :return: dict filled with data for Flat model
     """
     try:
-        flat = scraping_house_or_flat(endpoint, for_sale)
+        flat = scraping_house_or_flat(link, for_sale)
         return flat
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {e} - {link}")
 
 
-def scraping_flat_info(endpoint: str, for_sale: bool):
+def scraping_flat_info(link: str, for_sale: bool):
     """
-    :param endpoint: endpoint to an offer
+    :param link: endpoint to an offer
     :param for_sale: defines if flat is listed for sale or rent
     :return: dict filled with data for FlatInfo model
     """
     try:
-        bs = scraping_otodom(endpoint)
+        bs = scraping_otodom(link)
         table = bs.find('div', class_="css-wj4wb2 emxfhao1")
 
         extras = {}
@@ -118,4 +118,4 @@ def scraping_flat_info(endpoint: str, for_sale: bool):
         }
         return flat_info
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {e} - {link}")

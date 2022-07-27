@@ -14,8 +14,8 @@ class House(Base):
     title = Column(String(128))
     city = Column(String(32))
     district = Column(String(32))
-    address = Column(String(32))
-    area = Column(String(32))
+    address = Column(String(64))
+    area = Column(String(64))
     number_of_rooms = Column(Integer)
     price = Column(String(32))
     price_per_m2 = Column(String(32))
@@ -24,6 +24,14 @@ class House(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
+    @staticmethod
+    def get_house_by_link(db, link):
+        return db.query(House).filter(House.link == link).first()
+
+    @staticmethod
+    def get_empty_houses(db):
+        return db.query(House).filter(House.title == None)
+
 
 class HouseInfo(Base):
     __tablename__ = "house_info"
@@ -31,27 +39,27 @@ class HouseInfo(Base):
     market = Column(String(32))
     deposit = Column(String(32))
     plot_area = Column(String(32))
-    type_of_building = Column(String(32))
-    heating = Column(String(32))
-    finish_condition = Column(String(32))
+    type_of_building = Column(String(64))
+    heating = Column(String(64))
+    finish_condition = Column(String(64))
     year_of_construction = Column(Integer)
-    parking_spot = Column(String(32))
+    parking_spot = Column(String(64))
     bills_monthly = Column(String(32))
     advertiser = Column(String(32))
     available_from = Column(Date)
-    walls_material = Column(String(32))
-    windows = Column(String(32))
+    walls_material = Column(String(64))
+    windows = Column(String(64))
     number_of_floors = Column(Integer)
     holiday_house = Column(Boolean)
-    roof_type = Column(String(32))
-    roofing_type = Column(String(32))
-    attic = Column(String(32))
-    utilities_supplied = Column(String(128))
-    security_stuff = Column(String(128))
-    fence = Column(String(32))
-    drive_access = Column(String(32))
-    location = Column(String(32))
-    extras = Column(String(128))
+    roof_type = Column(String(64))
+    roofing_type = Column(String(64))
+    attic = Column(String(64))
+    utilities_supplied = Column(String(256))
+    security_stuff = Column(String(256))
+    fence = Column(String(128))
+    drive_access = Column(String(128))
+    location = Column(String(128))
+    extras = Column(String(256))
     house_id_scrap = Column(Integer, ForeignKey('house.id_scrap', ondelete="CASCADE"))
     house = relationship("House", back_populates='house_info')
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

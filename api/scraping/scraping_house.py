@@ -1,27 +1,27 @@
 from .scraping_helpers import scraping_otodom, scraping_house_or_flat
 
 
-def scraping_house(endpoint: str, for_sale: bool):
+def scraping_house(link: str, for_sale: bool):
     """
-    :param endpoint: endpoint to an offer
+    :param link: endpoint to an offer
     :param for_sale: defines if house is listed for sale or rent
     :return: dict filled with data for House model
     """
     try:
-        house = scraping_house_or_flat(endpoint, for_sale)
+        house = scraping_house_or_flat(link, for_sale)
         return house
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {e} - {link}")
 
 
-def scraping_house_info(endpoint: str, for_sale: bool):
+def scraping_house_info(link: str, for_sale: bool):
     """
-    :param endpoint: endpoint to an offer
+    :param link: endpoint to an offer
     :param for_sale: defines if house is listed for sale or rent
     :return: dict filled with data for HouseInfo model
     """
     try:
-        bs = scraping_otodom(endpoint)
+        bs = scraping_otodom(link)
         table = bs.find('div', class_="css-wj4wb2 emxfhao1")
 
         extras = {}
@@ -37,7 +37,8 @@ def scraping_house_info(endpoint: str, for_sale: bool):
         if extras.get("Dom rekreacyjny"):
             extras["Dom rekreacyjny"] = True if extras["Dom rekreacyjny"] == 'tak' else False
         if extras.get("Liczba pięter"):
-            extras['Liczba pięter'] = int(extras.get('Liczba pięter').split(' ')[0])
+            extras["Liczba pięter"] = 0 if extras.get("Liczba pięter").lower() == 'parterowy' \
+                else int(extras.get('Liczba pięter').split(' ')[0])
         if extras.get("Rok budowy"):
             extras['Rok budowy'] = int(extras.get("Rok budowy"))
 
@@ -81,7 +82,10 @@ def scraping_house_info(endpoint: str, for_sale: bool):
             number_of_floors = table.find(
                 'div', {"class": "css-1ccovha estckra9", "aria-label": "Liczba pięter"}
             ).get_text()[13:]
-            extras['Liczba pięter'] = None if number_of_floors == 'zapytaj' else int(number_of_floors.split(' ')[0])
+            if number_of_floors == 'parterowy':
+                extras['Liczba pięter'] = 0
+            else:
+                extras['Liczba pięter'] = None if number_of_floors == 'zapytaj' else int(number_of_floors.split(' ')[0])
 
             deposit = table.find(
                 'div', {"class": "css-1ccovha estckra9", "aria-label": "Kaucja"}
@@ -121,4 +125,4 @@ def scraping_house_info(endpoint: str, for_sale: bool):
         }
         return house_info
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {e} - {link}")

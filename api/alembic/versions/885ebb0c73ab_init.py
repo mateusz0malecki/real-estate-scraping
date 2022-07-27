@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 1dfce2bf01ce
+Revision ID: 885ebb0c73ab
 Revises: 
-Create Date: 2022-07-26 14:01:17.673085
+Create Date: 2022-07-27 13:40:17.954772
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1dfce2bf01ce'
+revision = '885ebb0c73ab'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,8 +26,8 @@ def upgrade() -> None:
     sa.Column('title', sa.String(length=128), nullable=True),
     sa.Column('city', sa.String(length=32), nullable=True),
     sa.Column('district', sa.String(length=32), nullable=True),
-    sa.Column('address', sa.String(length=32), nullable=True),
-    sa.Column('area', sa.String(length=32), nullable=True),
+    sa.Column('address', sa.String(length=64), nullable=True),
+    sa.Column('area', sa.String(length=64), nullable=True),
     sa.Column('number_of_rooms', sa.Integer(), nullable=True),
     sa.Column('price', sa.String(length=32), nullable=True),
     sa.Column('price_per_m2', sa.String(length=32), nullable=True),
@@ -46,8 +46,8 @@ def upgrade() -> None:
     sa.Column('title', sa.String(length=128), nullable=True),
     sa.Column('city', sa.String(length=32), nullable=True),
     sa.Column('district', sa.String(length=32), nullable=True),
-    sa.Column('address', sa.String(length=32), nullable=True),
-    sa.Column('area', sa.String(length=32), nullable=True),
+    sa.Column('address', sa.String(length=64), nullable=True),
+    sa.Column('area', sa.String(length=64), nullable=True),
     sa.Column('number_of_rooms', sa.Integer(), nullable=True),
     sa.Column('price', sa.String(length=32), nullable=True),
     sa.Column('price_per_m2', sa.String(length=32), nullable=True),
@@ -62,25 +62,25 @@ def upgrade() -> None:
     sa.Column('flat_info_id', sa.Integer(), nullable=False),
     sa.Column('flat_floor', sa.String(length=16), nullable=True),
     sa.Column('bills_monthly', sa.String(length=16), nullable=True),
-    sa.Column('finish_condition', sa.String(length=32), nullable=True),
-    sa.Column('balcony_garden', sa.String(length=32), nullable=True),
-    sa.Column('parking_spot', sa.String(length=32), nullable=True),
-    sa.Column('heating', sa.String(length=32), nullable=True),
+    sa.Column('finish_condition', sa.String(length=64), nullable=True),
+    sa.Column('balcony_garden', sa.String(length=64), nullable=True),
+    sa.Column('parking_spot', sa.String(length=64), nullable=True),
+    sa.Column('heating', sa.String(length=64), nullable=True),
     sa.Column('advertiser', sa.String(length=32), nullable=True),
     sa.Column('available_from', sa.Date(), nullable=True),
     sa.Column('year_of_construction', sa.Integer(), nullable=True),
-    sa.Column('type_of_building', sa.String(length=32), nullable=True),
-    sa.Column('windows', sa.String(length=32), nullable=True),
-    sa.Column('walls_material', sa.String(length=32), nullable=True),
+    sa.Column('type_of_building', sa.String(length=64), nullable=True),
+    sa.Column('windows', sa.String(length=64), nullable=True),
+    sa.Column('walls_material', sa.String(length=64), nullable=True),
     sa.Column('elevator', sa.Boolean(), nullable=True),
-    sa.Column('utilities_supplied', sa.String(length=128), nullable=True),
-    sa.Column('security_stuff', sa.String(length=128), nullable=True),
-    sa.Column('equipment', sa.String(length=128), nullable=True),
-    sa.Column('property_form', sa.String(length=32), nullable=True),
+    sa.Column('utilities_supplied', sa.String(length=256), nullable=True),
+    sa.Column('security_stuff', sa.String(length=256), nullable=True),
+    sa.Column('equipment', sa.String(length=256), nullable=True),
+    sa.Column('property_form', sa.String(length=64), nullable=True),
     sa.Column('market', sa.String(length=32), nullable=True),
     sa.Column('deposit', sa.String(length=32), nullable=True),
     sa.Column('available_for_students', sa.Boolean(), nullable=True),
-    sa.Column('extras', sa.String(length=128), nullable=True),
+    sa.Column('extras', sa.String(length=256), nullable=True),
     sa.Column('flat_id_scrap', sa.Integer(), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
@@ -93,27 +93,27 @@ def upgrade() -> None:
     sa.Column('market', sa.String(length=32), nullable=True),
     sa.Column('deposit', sa.String(length=32), nullable=True),
     sa.Column('plot_area', sa.String(length=32), nullable=True),
-    sa.Column('type_of_building', sa.String(length=32), nullable=True),
-    sa.Column('heating', sa.String(length=32), nullable=True),
-    sa.Column('finish_condition', sa.String(length=32), nullable=True),
+    sa.Column('type_of_building', sa.String(length=64), nullable=True),
+    sa.Column('heating', sa.String(length=64), nullable=True),
+    sa.Column('finish_condition', sa.String(length=64), nullable=True),
     sa.Column('year_of_construction', sa.Integer(), nullable=True),
-    sa.Column('parking_spot', sa.String(length=32), nullable=True),
+    sa.Column('parking_spot', sa.String(length=64), nullable=True),
     sa.Column('bills_monthly', sa.String(length=32), nullable=True),
     sa.Column('advertiser', sa.String(length=32), nullable=True),
     sa.Column('available_from', sa.Date(), nullable=True),
-    sa.Column('walls_material', sa.String(length=32), nullable=True),
-    sa.Column('windows', sa.String(length=32), nullable=True),
+    sa.Column('walls_material', sa.String(length=64), nullable=True),
+    sa.Column('windows', sa.String(length=64), nullable=True),
     sa.Column('number_of_floors', sa.Integer(), nullable=True),
     sa.Column('holiday_house', sa.Boolean(), nullable=True),
-    sa.Column('roof_type', sa.String(length=32), nullable=True),
-    sa.Column('roofing_type', sa.String(length=32), nullable=True),
-    sa.Column('attic', sa.String(length=32), nullable=True),
-    sa.Column('utilities_supplied', sa.String(length=128), nullable=True),
-    sa.Column('security_stuff', sa.String(length=128), nullable=True),
-    sa.Column('fence', sa.String(length=32), nullable=True),
-    sa.Column('drive_access', sa.String(length=32), nullable=True),
-    sa.Column('location', sa.String(length=32), nullable=True),
-    sa.Column('extras', sa.String(length=128), nullable=True),
+    sa.Column('roof_type', sa.String(length=64), nullable=True),
+    sa.Column('roofing_type', sa.String(length=64), nullable=True),
+    sa.Column('attic', sa.String(length=64), nullable=True),
+    sa.Column('utilities_supplied', sa.String(length=256), nullable=True),
+    sa.Column('security_stuff', sa.String(length=256), nullable=True),
+    sa.Column('fence', sa.String(length=128), nullable=True),
+    sa.Column('drive_access', sa.String(length=128), nullable=True),
+    sa.Column('location', sa.String(length=128), nullable=True),
+    sa.Column('extras', sa.String(length=256), nullable=True),
     sa.Column('house_id_scrap', sa.Integer(), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),

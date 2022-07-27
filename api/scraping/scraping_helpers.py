@@ -3,23 +3,19 @@ from requests import get
 
 
 def scraping_otodom(endpoint):
-    page = get(
-        f"https://www.otodom.pl{endpoint}"
-    ).content
+    page = get(endpoint).content
     bs = BeautifulSoup(page, 'html.parser')
     return bs
 
 
-def scraping_house_or_flat(endpoint, for_sale):
-    bs = scraping_otodom(endpoint)
+def scraping_house_or_flat(link, for_sale):
+    bs = scraping_otodom(link)
 
     head = bs.find('head').find('title').get_text()
     id_scrap = head.split()[-3]
-    link = f"https://www.otodom.pl{endpoint}"
     title = bs.find('h1', class_="css-11kn46p eu6swcv20").get_text()
 
     scrap = bs.find('a', class_="e1nbpvi60 css-1kforri e1enecw71").get_text().split(',')
-    city = scrap[0].strip()
     try:
         district = scrap[1].strip()
     except IndexError:
@@ -54,10 +50,7 @@ def scraping_house_or_flat(endpoint, for_sale):
 
     instance = {
         "id_scrap": int(id_scrap),
-        "for_sale": for_sale,
-        "link": link,
         "title": title,
-        "city": city,
         "district": district,
         "address": address,
         "area": area,

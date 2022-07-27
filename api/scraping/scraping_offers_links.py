@@ -21,8 +21,7 @@ def get_links_to_offers(city: str, for_sale: bool, estate: str):
 
         try:
             page = get(
-                f'https://www.otodom.pl/pl/oferty/{sale_or_rent}/{estate}/{city}'
-                f'?distanceRadius=0&page={page_number}&limit=36'
+                f'https://www.otodom.pl/pl/oferty/{sale_or_rent}/{estate}/{city}?market=ALL&page={page_number}'
             ).content
             bs = BeautifulSoup(page, 'html.parser')
             offers = bs.find_all('ul', class_='css-14cy79a e3x1uf06')
