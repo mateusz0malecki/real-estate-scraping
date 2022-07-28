@@ -45,16 +45,17 @@ def scrap_links(db, estate: str, for_sale: bool, city: str):
 
 def scrap_houses_info(db):
     instances_to_fill = House.get_empty_houses(db)
+    houses_info_to_add = []
 
     for instance in instances_to_fill:
         house = scraping_house(link=instance.link, for_sale=instance.for_sale)
-        houses_info_to_add = []
         house_info = None
         if house:
             house_info = scraping_house_info(link=instance.link, for_sale=instance.for_sale)
 
             instance.id_scrap = house.get("id_scrap")
             instance.title = house.get("title")
+            instance.city = house.get("city")
             instance.district = house.get("district")
             instance.address = house.get("address")
             instance.area = house.get("area")
@@ -93,18 +94,18 @@ def scrap_houses_info(db):
             )
             houses_info_to_add.append(house_info_to_db)
 
-        db.add_all(houses_info_to_add)
-        db.commit()
-        for n in houses_info_to_add:
-            db.refresh(n)
+    db.add_all(houses_info_to_add)
+    db.commit()
+    for n in houses_info_to_add:
+        db.refresh(n)
 
 
 def scrap_flats_info(db):
     instances_to_fill = Flat.get_empty_flats(db)
+    flats_info_to_add = []
 
     for instance in instances_to_fill:
         flat = scraping_flat(link=instance.link, for_sale=instance.for_sale)
-        flats_info_to_add = []
         flat_info = None
         if flat:
             flat_info = scraping_flat_info(link=instance.link, for_sale=instance.for_sale)
@@ -146,7 +147,7 @@ def scrap_flats_info(db):
             )
             flats_info_to_add.append(flat_info_to_db)
 
-        db.add_all(flats_info_to_add)
-        db.commit()
-        for n in flats_info_to_add:
-            db.refresh(n)
+    db.add_all(flats_info_to_add)
+    db.commit()
+    for n in flats_info_to_add:
+        db.refresh(n)

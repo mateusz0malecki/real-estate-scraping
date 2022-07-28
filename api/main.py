@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from settings import get_settings
+from routes.estates import router as estate_router
 
 
 def create_app() -> FastAPI:
@@ -15,6 +16,7 @@ def create_app() -> FastAPI:
     )
 
     # Routes
+    app.include_router(estate_router)
 
     # CORS
     origins = [

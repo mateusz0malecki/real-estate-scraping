@@ -15,11 +15,11 @@ class House(Base):
     city = Column(String(32))
     district = Column(String(32))
     address = Column(String(64))
-    area = Column(String(64))
+    area = Column(Integer)
     number_of_rooms = Column(Integer)
-    price = Column(String(32))
-    price_per_m2 = Column(String(32))
-    rent_price = Column(String(32))
+    price = Column(Integer)
+    price_per_m2 = Column(Integer)
+    rent_price = Column(Integer)
     house_info = relationship("HouseInfo", back_populates='house', uselist=False, cascade='delete')
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -29,8 +29,16 @@ class House(Base):
         return db.query(House).filter(House.link == link).first()
 
     @staticmethod
+    def get_house_by_scrap_id(db, id_scrap):
+        return db.query(House).filter(House.id_scrap == id_scrap).first()
+
+    @staticmethod
     def get_empty_houses(db):
         return db.query(House).filter(House.title == None)
+
+    @staticmethod
+    def get_all_houses(db):
+        return db.query(House).all()
 
 
 class HouseInfo(Base):

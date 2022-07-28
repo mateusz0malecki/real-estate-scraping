@@ -11,7 +11,7 @@ def scraping_flat(link: str, for_sale: bool):
         flat = scraping_house_or_flat(link, for_sale)
         return flat
     except Exception as e:
-        print(f"Error: {e} - {link}")
+        print(f"Error scraping_flat: {e} - {link}")
 
 
 def scraping_flat_info(link: str, for_sale: bool):
@@ -118,4 +118,4 @@ def scraping_flat_info(link: str, for_sale: bool):
         }
         return flat_info
     except Exception as e:
-        print(f"Error: {e} - {link}")
+        print(f"Error scraping_flat_info: {e} - {link}")

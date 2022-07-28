@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 885ebb0c73ab
+Revision ID: b54b3df9ec76
 Revises: 
-Create Date: 2022-07-27 13:40:17.954772
+Create Date: 2022-07-28 08:56:36.546919
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '885ebb0c73ab'
+revision = 'b54b3df9ec76'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,11 +27,11 @@ def upgrade() -> None:
     sa.Column('city', sa.String(length=32), nullable=True),
     sa.Column('district', sa.String(length=32), nullable=True),
     sa.Column('address', sa.String(length=64), nullable=True),
-    sa.Column('area', sa.String(length=64), nullable=True),
+    sa.Column('area', sa.Integer(), nullable=True),
     sa.Column('number_of_rooms', sa.Integer(), nullable=True),
-    sa.Column('price', sa.String(length=32), nullable=True),
-    sa.Column('price_per_m2', sa.String(length=32), nullable=True),
-    sa.Column('rent_price', sa.String(length=32), nullable=True),
+    sa.Column('price', sa.Integer(), nullable=True),
+    sa.Column('price_per_m2', sa.Integer(), nullable=True),
+    sa.Column('rent_price', sa.Integer(), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('flat_id'),
@@ -47,11 +47,11 @@ def upgrade() -> None:
     sa.Column('city', sa.String(length=32), nullable=True),
     sa.Column('district', sa.String(length=32), nullable=True),
     sa.Column('address', sa.String(length=64), nullable=True),
-    sa.Column('area', sa.String(length=64), nullable=True),
+    sa.Column('area', sa.Integer(), nullable=True),
     sa.Column('number_of_rooms', sa.Integer(), nullable=True),
-    sa.Column('price', sa.String(length=32), nullable=True),
-    sa.Column('price_per_m2', sa.String(length=32), nullable=True),
-    sa.Column('rent_price', sa.String(length=32), nullable=True),
+    sa.Column('price', sa.Integer(), nullable=True),
+    sa.Column('price_per_m2', sa.Integer(), nullable=True),
+    sa.Column('rent_price', sa.Integer(), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.PrimaryKeyConstraint('house_id'),
