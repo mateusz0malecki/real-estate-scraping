@@ -1,5 +1,8 @@
+import logging
 from bs4 import BeautifulSoup
 from requests import get
+
+logging.getLogger(__name__)
 
 
 def get_links_to_offers(city: str, for_sale: bool, estate: str):
@@ -38,5 +41,5 @@ def get_links_to_offers(city: str, for_sale: bool, estate: str):
                     links.append(link['href'])
 
         except Exception as e:
-            print(f'Error: {e}')
+            logging.error(f'get_links_to_offers: {e}')
     return links

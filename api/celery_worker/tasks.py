@@ -1,8 +1,12 @@
+import logging
+
 from celery import Task
 
 from .celery import app
 from .tasks_helpers import scrap_links, scrap_houses_info, scrap_flats_info
 from db.database import db_session
+
+logging.getLogger(__name__)
 
 
 class SQLAlchemyTask(Task):
@@ -44,16 +48,16 @@ def get_links():
         for for_sale in for_sale_conditions:
             for city in cities:
                 scrap_links(db_session, estate, for_sale, city)
-    print("DB filled with new links.")
+    logging.info("DB filled with new links.")
 
 
 @app.task(name="get_houses_info", base=SQLAlchemyTask)
 def get_houses_info():
     scrap_houses_info(db_session)
-    print("Houses filled with info.")
+    logging.info("Houses filled with info.")
 
 
 @app.task(name="get_flats_info", base=SQLAlchemyTask)
 def get_flats_info():
     scrap_flats_info(db_session)
-    print("Flats filled with info.")
+    logging.info("Flats filled with info.")

@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,6 +19,15 @@ def create_app() -> FastAPI:
 
     # Routes
     app.include_router(estate_router)
+
+    # Logging
+    logging.basicConfig(
+        filename='logs.log',
+        filemode='a',
+        level=logging.WARNING,
+        format='%(asctime)s - %(levelname)s - %(module)s - %(message)s',
+        encoding='utf-8'
+    )
 
     # CORS
     origins = [

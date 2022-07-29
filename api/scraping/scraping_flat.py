@@ -1,4 +1,7 @@
+import logging
 from .scraping_helpers import scraping_otodom, scraping_house_or_flat
+
+logging.getLogger(__name__)
 
 
 def scraping_flat(link: str, for_sale: bool):
@@ -11,7 +14,7 @@ def scraping_flat(link: str, for_sale: bool):
         flat = scraping_house_or_flat(link, for_sale)
         return flat
     except Exception as e:
-        print(f"Error scraping_flat: {e} - {link}")
+        logging.error(f"scraping_flat: {e} - {link}")
 
 
 def scraping_flat_info(link: str, for_sale: bool):
@@ -118,4 +121,4 @@ def scraping_flat_info(link: str, for_sale: bool):
         }
         return flat_info
     except Exception as e:
-        print(f"Error scraping_flat_info: {e} - {link}")
+        logging.error(f"scraping_flat_info: {e} - {link}")

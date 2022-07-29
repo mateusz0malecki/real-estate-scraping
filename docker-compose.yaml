@@ -54,7 +54,7 @@ services:
     build: ./api
     volumes:
       - ./api:/api
-    command: bash -c "wait-for-it --service api:8000 && celery -A celery_worker worker"
+    command: bash -c "wait-for-it --service api:8000 && celery -A celery_worker worker --loglevel=info -f celery.log -B"
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL-amqp://guest:guest@rabbitmqhost:5672//}
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND-db+postgresql+psycopg2://postgres:password@db/real_estate}
