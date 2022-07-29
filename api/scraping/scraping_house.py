@@ -30,12 +30,13 @@ def scraping_house_info(link: str, for_sale: bool):
         extras = {}
         scrap = bs.find_all('div', class_='css-f45csg estckra9')
         for info in scrap:
-            key = info.find('div', class_='css-1h52dri estckra7').get_text()
-            try:
-                value = info.find('div', class_='css-1wi2w6s estckra5').get_text()
-            except AttributeError:
-                value = None
-            extras[key] = value
+            if info is not None:
+                key = info.find('div', class_='css-1h52dri estckra7').get_text()
+                try:
+                    value = info.find('div', class_='css-1wi2w6s estckra5').get_text()
+                except AttributeError:
+                    value = None
+                extras[key] = value
 
         if extras.get("Dom rekreacyjny"):
             extras["Dom rekreacyjny"] = True if extras["Dom rekreacyjny"] == 'tak' else False

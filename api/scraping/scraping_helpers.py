@@ -11,8 +11,8 @@ def scraping_otodom(endpoint):
 def scraping_house_or_flat(link, for_sale):
     bs = scraping_otodom(link)
 
-    head = bs.find('head').find('title').get_text()
-    id_scrap = head.split()[-3]
+    head = bs.find('head').find('title').get_text().split(',')
+    id_scrap = ''.join([i for i in head[-1] if i.isdigit()])
     title = bs.find('h1', class_="css-11kn46p eu6swcv20").get_text()
 
     scrap = bs.find('a', class_="e1nbpvi60 css-1kforri e1enecw71").get_text().split(',')
@@ -22,7 +22,7 @@ def scraping_house_or_flat(link, for_sale):
     except IndexError:
         district = None
     try:
-        address = scrap[-1].strip()
+        address = scrap[-1].strip() if len(scrap) > 2 else None
     except IndexError:
         address = None
 
@@ -31,6 +31,7 @@ def scraping_house_or_flat(link, for_sale):
         price = ''.join(n for n in price if n.isdigit())
         price_per_m2 = bs.find('div', class_="css-1p44dor eu6swcv16").get_text()
         price_per_m2 = ''.join(n for n in price_per_m2 if n.isdigit())
+        price_per_m2 = ''.join([i for i in price_per_m2 if ord(i) < 128])
         rent_price = None
     else:
         price = None
