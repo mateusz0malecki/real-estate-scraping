@@ -20,6 +20,7 @@ class Flat(Base):
     price = Column(Integer)
     price_per_m2 = Column(Integer)
     rent_price = Column(Integer)
+    picture = Column(String(256))
     flat_info = relationship("FlatInfo", back_populates='flat', uselist=False, cascade='delete')
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     created_at = Column(DateTime(timezone=True), server_default=func.now())

@@ -15,6 +15,7 @@ class EstateBase(BaseModel):
     address: Optional[str]
     area: Optional[int]
     number_of_rooms: Optional[int]
+    picture: Optional[str]
     updated_at: Optional[datetime]
     created_at: Optional[datetime]
 

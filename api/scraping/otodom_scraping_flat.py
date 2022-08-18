@@ -1,23 +1,23 @@
 import logging
-from .scraping_helpers import scraping_otodom, scraping_house_or_flat
+from .otodom_scraping_helpers import scraping_otodom, otodom_scraping_house_or_flat
 
 logging.getLogger(__name__)
 
 
-def scraping_flat(link: str, for_sale: bool):
+def otodom_scraping_flat(link: str, for_sale: bool):
     """
     :param link: endpoint to an offer
     :param for_sale: defines if flat is listed for sale or rent
     :return: dict filled with data for Flat model
     """
     try:
-        flat = scraping_house_or_flat(link, for_sale)
+        flat = otodom_scraping_house_or_flat(link, for_sale)
         return flat
     except Exception as e:
         logging.error(f"scraping_flat: {e} - {link}")
 
 
-def scraping_flat_info(link: str, for_sale: bool):
+def otodom_scraping_flat_info(link: str, for_sale: bool):
     """
     :param link: endpoint to an offer
     :param for_sale: defines if flat is listed for sale or rent

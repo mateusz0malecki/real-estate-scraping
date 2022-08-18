@@ -8,7 +8,7 @@ def scraping_otodom(endpoint):
     return bs
 
 
-def scraping_house_or_flat(link, for_sale):
+def otodom_scraping_house_or_flat(link, for_sale):
     bs = scraping_otodom(link)
 
     head = bs.find('head').find('title').get_text().split(',')
@@ -39,6 +39,8 @@ def scraping_house_or_flat(link, for_sale):
         rent_price = bs.find('strong', class_="css-8qi9av eu6swcv19").get_text()
         rent_price = ''.join(n for n in rent_price if n.isdigit())
 
+    picture = bs.find('img', alt=title)['src']
+
     table = bs.find('div', class_="css-wj4wb2 emxfhao1")
     area = table.find(
         'div', {"class": "css-1ccovha estckra9", "aria-label": "Powierzchnia"}
@@ -64,5 +66,6 @@ def scraping_house_or_flat(link, for_sale):
         "price": price,
         "price_per_m2": price_per_m2,
         "rent_price": rent_price,
+        "picture": picture
     }
     return instance
