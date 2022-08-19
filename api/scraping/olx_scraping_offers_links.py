@@ -14,16 +14,20 @@ def olx_get_links_to_offers(city: str, for_sale: bool, estate: str):
     """
     page_number = 1
     links = []
+    if city == 'zielona-gora':
+        city = 'zielonagora'
+    if city == 'gorzow-wielkopolski':
+        city = 'gorzow'
+
+    sale_or_rent = None
+    if for_sale is True:
+        sale_or_rent = 'sprzedaz'
+    if for_sale is False:
+        sale_or_rent = 'wynajem'
+
+    estate = "mieszkania" if estate == "mieszkanie" else "domy"
+
     while True:
-
-        sale_or_rent = None
-        if for_sale is True:
-            sale_or_rent = 'sprzedaz'
-        if for_sale is False:
-            sale_or_rent = 'wynajem'
-
-        estate = "mieszkania" if estate == "mieszkanie" else "domy"
-
         try:
             page = get(
                 f'https://www.olx.pl/d/nieruchomosci/{estate}/{sale_or_rent}/{city}/?page={page_number}',
@@ -32,15 +36,15 @@ def olx_get_links_to_offers(city: str, for_sale: bool, estate: str):
             bs = BeautifulSoup(page, 'html.parser')
             offers = bs.find_all('div', class_='css-14fnihb')
 
-            scrap = offers[1].find_all("a", class_="css-1bbgabe")
+            scrap = offers[0].find_all("a", class_="css-1bbgabe")
             page_number += 1
 
             for endpoint in scrap:
                 if not endpoint['href'].startswith('http'):
-                    link = 'https://www.olx.pl/' + endpoint['href']
+                    link = 'https://www.olx.pl' + endpoint['href']
                     links.append(link)
 
-            if bs.find('div', class_='css-wsrviy') and len(offers) > 1:
+            if bs.find('div', class_='css-wsrviy'):
                 break
 
         except Exception as e:

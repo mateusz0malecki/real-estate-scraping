@@ -39,7 +39,7 @@ def otodom_scraping_house_or_flat(link, for_sale):
         rent_price = bs.find('strong', class_="css-8qi9av eu6swcv19").get_text()
         rent_price = ''.join(n for n in rent_price if n.isdigit())
 
-    picture = bs.find('img', alt=title)['src']
+    picture1 = bs.find('img', alt=title)['src']
 
     table = bs.find('div', class_="css-wj4wb2 emxfhao1")
     area = table.find(
@@ -66,6 +66,6 @@ def otodom_scraping_house_or_flat(link, for_sale):
         "price": price,
         "price_per_m2": price_per_m2,
         "rent_price": rent_price,
-        "picture": picture
+        "picture1": picture1
     }
     return instance

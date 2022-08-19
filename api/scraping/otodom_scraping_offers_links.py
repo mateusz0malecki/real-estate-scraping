@@ -35,10 +35,11 @@ def otodom_get_links_to_offers(city: str, for_sale: bool, estate: str):
             else:
                 break
 
-            for link in scrap:
-                price = link.find('span', class_='css-s8wpzb eclomwz1').get_text()
+            for endpoint in scrap:
+                price = endpoint.find('span', class_='css-s8wpzb eclomwz1').get_text()
                 if price != 'Zapytaj o cenę':
-                    links.append(link['href'])
+                    link = 'https://www.otodom.pl' + endpoint['href']
+                    links.append(link)
 
         except Exception as e:
             logging.error(f'otodom_get_links_to_offers: {e}')

@@ -1,50 +1,11 @@
 from models.model_house import House, HouseInfo
 from models.model_flat import Flat, FlatInfo
-from scraping.otodom_scraping_offers_links import otodom_get_links_to_offers
 from scraping.otodom_scraping_house import otodom_scraping_house, otodom_scraping_house_info
 from scraping.otodom_scraping_flat import otodom_scraping_flat, otodom_scraping_flat_info
 
 
-def scrap_links_otodom(db, estate: str, for_sale: bool, city: str):
-    endpoints = otodom_get_links_to_offers(city=city, for_sale=for_sale, estate=estate)
-
-    if estate == 'dom':
-        houses_to_init = []
-        for endpoint in endpoints:
-            if not House.get_house_by_link(db, f"https://www.otodom.pl{endpoint}"):
-                house = House(
-                    for_sale=for_sale,
-                    link=f"https://www.otodom.pl{endpoint}",
-                    city=city
-                )
-                houses_to_init.append(house)
-            else:
-                break
-        db.add_all(houses_to_init)
-        db.commit()
-        for instance in houses_to_init:
-            db.refresh(instance)
-
-    if estate == 'mieszkanie':
-        flats_to_init = []
-        for endpoint in endpoints:
-            if not Flat.get_flat_by_link(db, f"https://www.otodom.pl{endpoint}"):
-                flat = Flat(
-                    for_sale=for_sale,
-                    link=f"https://www.otodom.pl{endpoint}",
-                    city=city
-                )
-                flats_to_init.append(flat)
-            else:
-                break
-        db.add_all(flats_to_init)
-        db.commit()
-        for instance in flats_to_init:
-            db.refresh(instance)
-
-
 def scrap_houses_info_otodom(db):
-    instances_to_fill = House.get_empty_houses(db)
+    instances_to_fill = House.get_empty_houses(db).filter(House.link.contains('www.otodom.pl'))
 
     for instance in instances_to_fill:
         house = otodom_scraping_house(link=instance.link, for_sale=instance.for_sale)
@@ -62,7 +23,7 @@ def scrap_houses_info_otodom(db):
             instance.price = house.get("price")
             instance.price_per_m2 = house.get("price_per_m2")
             instance.rent_price = house.get("rent_price")
-            instance.picture = house.get("picture")
+            instance.picture1 = house.get("picture1")
 
         if house_info:
             house_info_to_db = HouseInfo(
@@ -95,11 +56,10 @@ def scrap_houses_info_otodom(db):
             db.add(house_info_to_db)
             db.commit()
             db.refresh(house_info_to_db)
-            db.refresh(house)
 
 
 def scrap_flats_info_otodom(db):
-    instances_to_fill = Flat.get_empty_flats(db)
+    instances_to_fill = Flat.get_empty_flats(db).filter(Flat.link.contains('www.otodom.pl'))
 
     for instance in instances_to_fill:
         flat = otodom_scraping_flat(link=instance.link, for_sale=instance.for_sale)
@@ -116,7 +76,7 @@ def scrap_flats_info_otodom(db):
             instance.price = flat.get("price")
             instance.price_per_m2 = flat.get("price_per_m2")
             instance.rent_price = flat.get("rent_price")
-            instance.picture = flat.get("picture")
+            instance.picture1 = flat.get("picture1")
 
         if flat_info:
             flat_info_to_db = FlatInfo(
@@ -143,7 +103,6 @@ def scrap_flats_info_otodom(db):
                 extras=flat_info.get("extras"),
                 flat_id_scrap=instance.id_scrap
             )
-            db.add_all(flat_info_to_db)
+            db.add(flat_info_to_db)
             db.commit()
             db.refresh(flat_info_to_db)
-            db.refresh(flat)
