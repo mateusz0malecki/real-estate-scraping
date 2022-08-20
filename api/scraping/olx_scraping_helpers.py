@@ -44,7 +44,7 @@ def olx_scraping_house_or_flat(link, for_sale):
         if detail.startswith('Rodzaj zabudowy'):
             type_of_building = ''.join([i for i in detail.split(': ')[1]])
         if detail.startswith('Czynsz'):
-            bills_monthly = int(detail.split(' ')[2])
+            bills_monthly = int(detail.split(' ')[2].split('.')[0].split(',')[0])
         if detail.startswith('Rynek'):
             market = detail.split(' ')[1]
         if detail.startswith('Liczba pięter'):
